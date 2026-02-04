@@ -3,10 +3,10 @@ from django.db import models
 
 class Race(models.Model):
     RACE_TYPES = [
-        ('elf','Elf'),
-        ('human','Human'),
-        ('dwarf','Dwarf'),
-        ('ork','Ork'),
+        ("elf", "Elf"),
+        ("human", "Human"),
+        ("dwarf", "Dwarf"),
+        ("ork", "Ork"),
     ]
     name = models.CharField(max_length=255,choices=RACE_TYPES, unique=True)
     description = models.TextField(blank=True)
@@ -15,7 +15,11 @@ class Race(models.Model):
 class Skill(models.Model):
     name = models.CharField(max_length=255, unique=True)
     bonus = models.CharField(max_length=255)
-    race = models.ForeignKey(Race, on_delete=models.CASCADE)
+    race = models.ForeignKey(
+        Race,
+        on_delete=models.CASCADE,
+        related_name="skill",
+    )
 
 
 class Guild(models.Model):
@@ -27,6 +31,16 @@ class Player(models.Model):
     nickname = models.CharField(max_length=255, unique=True)
     email = models.EmailField(max_length=255)
     bio = models.CharField(max_length=255)
-    race = models.ForeignKey(Race, on_delete=models.CASCADE)
-    guild = models.ForeignKey(Guild, on_delete=models.SET_NULL, blank=True, null=True)
+    race = models.ForeignKey(
+        Race,
+        on_delete=models.CASCADE,
+        related_name="race",
+    )
+    guild = models.ForeignKey(
+        Guild,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name="guild",
+    )
     created_at = models.DateTimeField(auto_now_add=True)
