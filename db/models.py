@@ -8,7 +8,7 @@ class Race(models.Model):
         ("dwarf", "Dwarf"),
         ("ork", "Ork"),
     ]
-    name = models.CharField(max_length=255,choices=RACE_TYPES, unique=True)
+    name = models.CharField(max_length=255, choices=RACE_TYPES, unique=True)
     description = models.TextField(blank=True)
 
 
@@ -18,7 +18,7 @@ class Skill(models.Model):
     race = models.ForeignKey(
         Race,
         on_delete=models.CASCADE,
-        related_name="skill",
+        related_name="skills",
     )
 
 
@@ -34,13 +34,13 @@ class Player(models.Model):
     race = models.ForeignKey(
         Race,
         on_delete=models.CASCADE,
-        related_name="race",
+        related_name="players",
     )
     guild = models.ForeignKey(
         Guild,
         on_delete=models.SET_NULL,
         blank=True,
         null=True,
-        related_name="guild",
+        related_name="members",
     )
     created_at = models.DateTimeField(auto_now_add=True)
